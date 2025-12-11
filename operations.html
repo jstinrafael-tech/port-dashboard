@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-header slide-right">
+  <h2 class="gold">Operations</h2>
+  <p class="muted">Create and manage vessel operations</p>
+</div>
+<div class="row g-4">
+  <div class="col-lg-6">
+    <div class="glass-card slide-up">
+      <h5 class="gold">Tambah Operasi</h5>
+      <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="mb-2">
+          <label class="form-label gold">{{ form.vessel_name.label }}</label>
+          {{ form.vessel_name(class="form-control") }}
+        </div>
+        <div class="mb-2">
+          <label class="form-label gold">{{ form.vessel_type.label }}</label>
+          {{ form.vessel_type(class="form-control") }}
+        </div>
+        <div class="mb-2 row">
+          <div class="col">
+            <label class="form-label gold">{{ form.eta.label }}</label>
+            {{ form.eta(class="form-control") }}
+          </div>
+          <div class="col">
+            <label class="form-label gold">{{ form.etd.label }}</label>
+            {{ form.etd(class="form-control") }}
+          </div>
+        </div>
+        <div class="mb-2 row">
+          <div class="col">
+            <label class="form-label gold">{{ form.berth_id.label }}</label>
+            {{ form.berth_id(class="form-select") }}
+          </div>
+          <div class="col">
+            <label class="form-label gold">{{ form.status.label }}</label>
+            {{ form.status(class="form-select") }}
+          </div>
+        </div>
+        <div class="mt-2">
+          {{ form.submit(class="btn btn-warning") }}
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="glass-card table-wrap fade-in">
+      <h5 class="gold">Daftar Operasi</h5>
+      <table class="table table-dark mb-0">
+        <thead>
+          <tr class="gold"><th>Kapal</th><th>Jenis</th><th>Dermaga</th><th>ETA</th><th>ETD</th><th>Status</th><th>Aksi</th></tr>
+        </thead>
+        <tbody>
+          {% for r in rows %}
+          <tr>
+            <td>{{ r.vessel_name }}</td>
+            <td>{{ r.vessel_type }}</td>
+            <td>{{ r.berth_name or '-' }}</td>
+            <td>{{ r.eta }}</td>
+            <td>{{ r.etd }}</td>
+            <td class="gold">{{ r.status }}</td>
+            <td>
+              {% if current_user.role == 'admin' %}
+                <a class="btn btn-sm btn-outline-light" href="{{ url_for('delete_operation', id=r.id) }}">Hapus</a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

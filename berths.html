@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-header slide-right">
+  <h2 class="gold">Berths</h2>
+  <p class="muted">Manage berths</p>
+</div>
+<div class="row g-4">
+  <div class="col-lg-6">
+    <div class="glass-card slide-up">
+      <h5 class="gold">Tambah Dermaga</h5>
+      <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="mb-2">
+          <label class="form-label gold">{{ form.name.label }}</label>
+          {{ form.name(class="form-control") }}
+        </div>
+        <div class="mb-2">
+          <label class="form-label gold">{{ form.location.label }}</label>
+          {{ form.location(class="form-control") }}
+        </div>
+        <div class="mb-2 row">
+          <div class="col">
+            <label class="form-label gold">{{ form.capacity.label }}</label>
+            {{ form.capacity(class="form-control") }}
+          </div>
+          <div class="col">
+            <label class="form-label gold">{{ form.status.label }}</label>
+            {{ form.status(class="form-select") }}
+          </div>
+        </div>
+        <div class="mt-2">
+          {{ form.submit(class="btn btn-warning") }}
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="glass-card table-wrap fade-in">
+      <h5 class="gold">Daftar Dermaga</h5>
+      <table class="table table-dark mb-0">
+        <thead>
+          <tr class="gold"><th>Nama</th><th>Lokasi</th><th>Kapasitas</th><th>Status</th><th>Aksi</th></tr>
+        </thead>
+        <tbody>
+          {% for r in rows %}
+          <tr>
+            <td>{{ r.name }}</td>
+            <td>{{ r.location }}</td>
+            <td>{{ r.capacity }}</td>
+            <td>{{ r.status }}</td>
+            <td>
+              {% if current_user.role == 'admin' %}
+                <a class="btn btn-sm btn-outline-light" href="{{ url_for('delete_berth', id=r.id) }}">Hapus</a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

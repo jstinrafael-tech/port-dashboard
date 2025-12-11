@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ title or "Port Management System" }}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="theme-navy">
+{% if current_user.is_authenticated %}
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <img src="{{ url_for('static', filename='icons/logo.svg') }}" alt="logo" width="36"/>
+    <span class="brand-text">Port<span class="gold">Board</span></span>
+  </div>
+  <nav class="nav-links">
+    <a href="{{ url_for('dashboard') }}" class="nav-item"><img src="{{ url_for('static', filename='icons/dashboard.svg') }}" class="icon"> Dashboard</a>
+    <a href="{{ url_for('berths') }}" class="nav-item"><img src="{{ url_for('static', filename='icons/berth.svg') }}" class="icon"> Berths</a>
+    <a href="{{ url_for('operations') }}" class="nav-item"><img src="{{ url_for('static', filename='icons/operations.svg') }}" class="icon"> Operations</a>
+    <a href="{{ url_for('logout') }}" class="nav-item"><img src="{{ url_for('static', filename='icons/logout.svg') }}" class="icon"> Logout</a>
+  </nav>
+  <div class="sidebar-footer">
+    <button id="toggle-theme" class="btn btn-sm btn-outline-light">Toggle Theme</button>
+  </div>
+</aside>
+{% endif %}
+<main class="content-area">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, msg in messages %}
+        <div class="alert alert-{{ category }} glass-card flash">{{ msg }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

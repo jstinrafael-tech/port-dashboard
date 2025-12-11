@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-header slide-right">
+  <h2 class="gold">Dashboard</h2>
+  <p class="muted">Overview of port activities</p>
+</div>
+<div class="row g-4">
+  <div class="col-md-4">
+    <div class="glass-card metric-card fade-in">
+      <h6 class="muted">Total Berths</h6>
+      <div class="metric-value gold">{{ berths_count }}</div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="glass-card metric-card fade-in" style="transition-delay: 120ms">
+      <h6 class="muted">Total Operations</h6>
+      <div class="metric-value gold">{{ operations_count }}</div>
+    </div>
+  </div>
+</div>
+<h5 class="gold mt-4">Recent Operations</h5>
+<div class="glass-card mt-3 table-wrap slide-up">
+  <table class="table table-dark table-hover mb-0">
+    <thead>
+      <tr class="gold">
+        <th>Kapal</th><th>Jenis</th><th>Dermaga</th><th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for op in latest_ops %}
+      <tr>
+        <td>{{ op.vessel_name }}</td>
+        <td>{{ op.vessel_type }}</td>
+        <td>{{ op.berth_name or '-' }}</td>
+        <td class="gold">{{ op.status }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
